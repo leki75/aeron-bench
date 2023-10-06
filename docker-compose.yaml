@@ -1,0 +1,46 @@
+services:
+  aeron:
+    command:
+      - /usr/local/etc/aeron.properties
+    image: gcr.io/alpacahq/aeron-driver-c:1.42.0-debian
+    ipc: shareable
+    shm_size: 512m
+    volumes:
+      - ./assets/aeron.properties:/usr/local/etc/aeron.properties
+    platform: linux/amd64
+
+  aeron-bench-sub:
+    command:
+      - /usr/local/bin/aeron-bench-sub
+      - -p
+      - /dev/shm/aeron
+      - -m
+      - "10000000"
+      - -P
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gcr.io/alpacahq/aeron-bench
+    depends_on:
+      - aeron
+    ipc: service:aeron
+    platform: linux/amd64
+
+  aeron-bench-pub:
+    command:
+      - /usr/local/bin/aeron-bench-pub
+      - -x
+      - -p
+      - /dev/shm/aeron
+      - -m
+      - "10000000"
+      - -P
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gcr.io/alpacahq/aeron-bench
+    depends_on:
+      - aeron
+      - aeron-bench-sub
+    ipc: service:aeron
+    platform: linux/amd64

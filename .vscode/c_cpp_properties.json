@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "xcapi",
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "configurationProvider": "ms-vscode.makefile-tools",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "includePath": [
+                "${workspaceFolder}/include/aeron/",
+                "${workspaceFolder}/src/"
+            ],
+            "intelliSenseMode": "${default}",
+            "mergeConfigurations": true
+        }
+    ],
+    "version": 4
+}
